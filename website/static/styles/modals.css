@@ -1,0 +1,53 @@
+.modal-sheet .modal-dialog {
+  width: 50%;
+  transition: bottom .75s ease-in-out;
+}
+.modal-sheet .modal-footer {
+  padding-bottom: 2rem;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.flashed_messages{
+  position: absolute;
+  top:0%;
+  left:0%;
+  padding: 15px;
+  margin: 15px 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+  
+
+}
+
+.flash_message.success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.flash_message.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.flash_message.info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+.flash_message.warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}

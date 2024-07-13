@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fafafa;
+    font-family: Arial, sans-serif;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.loading-icon {
+    width: 100px; /* Ajusta el tamaño del icono según sea necesario */
+    height: 100px; /* Ajusta el tamaño del icono según sea necesario */
+}
