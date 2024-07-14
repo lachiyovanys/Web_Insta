@@ -12,7 +12,13 @@ class Unfollower:
     def __init__(self, username):
         self.username = username
         self.profile_pic_blob = None
-
+        self.isVerified = False
+    
+    def getisVerified(self):
+        return self.isVerified
+    
+    def setIsVerified(self):
+        self.isVerified = True
     def fetch_profile_pic(self):
         try:
             profile = Profile.from_username(instance.context, self.username)
@@ -41,7 +47,8 @@ class Unfollower:
     def to_dict(self):
         return {
             'username': self.username,
-            'profile_pic_data_uri': self.get_profile_pic_data_uri()
+            'profile_pic_data_uri': self.get_profile_pic_data_uri(),
+            'is_Verified': self.getisVerified()
         }
 
 def create_profile(username):
@@ -57,6 +64,8 @@ def create_profile(username):
         unfollowers = []
         for user in not_following_you:
             unfollower = Unfollower(user.username)
+            if user.is_verified:
+                unfollower.setIsVerified()
             if unfollower.fetch_profile_pic():
                 unfollowers.append(unfollower.to_dict())
 
@@ -70,12 +79,14 @@ def login():
     if request.method == 'POST':
         username = request.form['user_input']
         password = request.form['password_input']
-        two_factor_code = request.form.get('code_input')
+        code_input = request.form.get('code_input')
 
         if 'is_2fa_required' in session and session['is_2fa_required']:
+            
             try:
-                instance.two_factor_login(two_factor_code)
+                instance.two_factor_login(code_input)
                 session['username'] = session.get('temp_username')
+        
                 session.pop('is_2fa_required', None)
                 session.pop('temp_username', None)
 
@@ -93,7 +104,7 @@ def login():
             session['username'] = username
             unfollowers = create_profile(session['username'])
             if unfollowers:
-                return render_template('user_profile.html', not_following_you=unfollowers)
+                return render_template('user_profile.html', not_following_you=unfollowers, username=username)
             else:
                 return render_template('login.html', is_2fa_required=False)
         except instaloader.TwoFactorAuthRequiredException:
@@ -108,7 +119,7 @@ def login():
 
 @auth.route('/profile-pic')
 def profile_pic():
-    profile_pic_url = session.get('profile_pic_url')
+    profile_pic_url = session.get('profile_pic')
     if profile_pic_url:
         try:
             response = requests.get(profile_pic_url)
