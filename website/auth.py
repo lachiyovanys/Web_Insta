@@ -4,6 +4,8 @@ from urllib.parse import unquote
 import requests
 from io import BytesIO
 import base64
+import asyncio
+import aiohttp
 
 auth = Blueprint('auth', __name__)
 instance = Instaloader()
@@ -19,24 +21,26 @@ class Unfollower:
     
     def setIsVerified(self):
         self.isVerified = True
-    def fetch_profile_pic(self):
+    async def fetch_profile_pic(self):
         try:
             profile = Profile.from_username(instance.context, self.username)
             if profile and profile.profile_pic_url:
                 profile_pic_url = unquote(profile.profile_pic_url)
-                response = requests.get(profile_pic_url)
-                if response.status_code == 200:
-                    self.profile_pic_blob = response.content  # Store binary content
-                    return True
-                else:
-                    print(f"Error fetching profile pic for {self.username}: HTTP status code {response.status_code}")
-                    return False
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(profile_pic_url) as response:
+                        if response.status == 200:
+                            self.profile_pic_blob = await response.read()
+                            return True
+                        else:
+                            print(f"Error fetching profile pic for {self.username}: HTTP status code {response.status}")
+                            return False
             else:
                 print(f"Error fetching profile pic for {self.username}: Profile or profile_pic_url is None")
                 return False
         except Exception as e:
             print(f"Error fetching profile pic for {self.username}: {str(e)}")
             return False
+
 
     def get_profile_pic_data_uri(self):
         if self.profile_pic_blob:
@@ -51,25 +55,29 @@ class Unfollower:
             'is_Verified': self.getisVerified()
         }
 
-def create_profile(username):
+async def create_profile(username):
     try:
         profile = Profile.from_username(instance.context, username)
-        profile_pic_url = unquote(profile.profile_pic_url) if profile.profile_pic_url else None  
-        session['profile_pic'] = profile_pic_url     
+        profile_pic_url = unquote(profile.profile_pic_url) if profile.profile_pic_url else None
+        session['profile_pic'] = profile_pic_url  
 
         followees = set(profile.get_followees())
         followers = set(profile.get_followers())
         not_following_you = followees - followers
 
         unfollowers = []
+        tasks = []
         for user in not_following_you:
             unfollower = Unfollower(user.username)
             if user.is_verified:
                 unfollower.setIsVerified()
-            if unfollower.fetch_profile_pic():
-                unfollowers.append(unfollower.to_dict())
+            tasks.append(asyncio.create_task(unfollower.fetch_profile_pic()))
+            unfollowers.append(unfollower)
 
-        return unfollowers
+        await asyncio.gather(*tasks)
+
+        session['profile_pic_url'] = profile_pic_url
+        return [unfollower.to_dict() for unfollower in unfollowers]
     except Exception as e:
         flash(f"Error creating profile: {str(e)}", category="error")
         return False
@@ -79,20 +87,18 @@ def login():
     if request.method == 'POST':
         username = request.form['user_input']
         password = request.form['password_input']
-        code_input = request.form.get('code_input')
+        two_factor_code = request.form.get('code_input')
 
         if 'is_2fa_required' in session and session['is_2fa_required']:
-            
             try:
-                instance.two_factor_login(code_input)
+                instance.two_factor_login(two_factor_code)
                 session['username'] = session.get('temp_username')
-        
                 session.pop('is_2fa_required', None)
                 session.pop('temp_username', None)
 
-                unfollowers = create_profile(session['username'])
+                unfollowers = asyncio.run(create_profile(session['username']))
                 if unfollowers:
-                    return render_template('user_profile.html', not_following_you=unfollowers)
+                    return render_template('user_profile.html', not_following_you=unfollowers,username=username)
                 else:
                     return render_template('login.html', is_2fa_required=False)
             except instaloader.BadCredentialsException:
@@ -102,7 +108,7 @@ def login():
         try:
             instance.login(username, password)
             session['username'] = username
-            unfollowers = create_profile(session['username'])
+            unfollowers = asyncio.run(create_profile(session['username']))
             if unfollowers:
                 return render_template('user_profile.html', not_following_you=unfollowers, username=username)
             else:
@@ -115,6 +121,7 @@ def login():
             flash("Invalid username or password. Please try again.", category="error")
             return render_template('login.html', is_2fa_required=False)
     return render_template('login.html', is_2fa_required=False)
+
 
 
 @auth.route('/profile-pic')
