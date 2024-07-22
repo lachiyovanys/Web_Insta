@@ -14,44 +14,8 @@
   outline: 0;
 }
 
-/* .list-group {
+.list-group {
   margin: 20px 0;
 }
 
-.list-group-item {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  transition: background-color 0.2s;
-  overflow-y: hidden;
-}
 
-.list-group-item:hover {
-  background-color: #f1f1f1;
-}
-
-.list-group-item img {
-  border-radius: 50%;
-}
-
-
-.list-group-item h6 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.list-group-item p {
-  margin: 5px 0 0;
-  font-size: 14px;
-  color: white;
-} */
-
-.verified{
-  margin-left:5px ;
-  width: 20px;
-  height: 20px;
-}

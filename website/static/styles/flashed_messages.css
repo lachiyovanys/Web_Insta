@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Mochiy+Pop+P+One&family=Montserrat&family=Oswald:wght@300&family=Varela+Round&family=ZCOOL+KuaiLe&display=swap');
+
+
+
+
+.color {
+  animation: color 2s linear infinite;
+}
+
+
+
+.spin {
+  animation: spin 2s linear infinite;
+}
+
+
+.danger .fa-caret-down {
+    position: absolute;
+    right: 40px; /* Adjust as needed */
+    font-size: 20px;
+    color: #721c24;
+}
+
+.rotate {
+  animation: rotate 2s linear infinite;
+}
+.danger {
+  border-radius: 5px;
+  width: 220px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #2B3246;
+  cursor:pointer;
+  box-shadow:  9px 9px 18px #262c3e,
+    -9px -9px 18px #30384e;
+  color: rgb(255, 10, 1);
+  margin: 20px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+
+.danger:hover
+{
+  background-color: rgba(255, 10, 1, 0.33);
+  transition:0.5s;
+}
+
+
+.shine {
+  animation: shine 2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes color {
+  50% {
+   color: #2B3246;
+  }
+  100% {
+    color: #0ad406;
+  }
+}
+
+@keyframes rotate {
+ 0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(90deg);
+  }
+  40% {
+    transform: rotate(0deg);
+  }
+  80% {
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes shine {
+  0% {
+   color: #2B3246;
+  }
+  50% {
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 40px red,
+      0 0 60px red,
+      0 0 80px red;
+  }
+}

@@ -16,9 +16,9 @@
 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
+  
   <link href="{{ url_for('static', filename='assets/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-
+  <link href="{{ url_for('static', filename='styles/flashed_messages.css') }}" rel="stylesheet">
 
   <style>
     .hidden {
@@ -162,7 +162,16 @@
       {% if messages %}
         <ul>
         {% for category, message in messages %}
-        <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5 {{ category }}" tabindex="-1" role="dialog" id="modalSheet">
+        
+        <div class="danger" >
+          <i class="far fa-times-circle shine" onclick="close_flashed_message() " ></i>
+          &nbsp; &nbsp;
+          <span id="error_info">Error</span>
+          <p class="error_message" style="display: none;"  id="message">{{message}}</p>
+          <i class="fa-solid fa-caret-down" onclick="caret_click()"> </i>
+        </div>
+        </div>
+        <!-- <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5 {{ category }}" tabindex="-1" role="dialog" id="modalSheet">
           <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
               <div class="modal-header border-bottom-0">
@@ -174,7 +183,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         {% endfor %}
         </ul>
       {% endif %}
@@ -185,19 +194,8 @@
  
 
   <script src="{{url_for('static', filename = 'assets/dist/js/bootstrap.bundle.min.js')}}"></script>
-  <script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#floatingPassword');
-
-    togglePassword.addEventListener('click', function (e) {
-        // Alternar el tipo de input entre 'password' y 'text'
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        
-        // Cambiar el icono del ojito
-        this.innerHTML = type === 'password' ? '<i class="fa-regular fa-eye"></i>' : '<i class="fa-regular fa-eye-slash"></i>';
-    });
-</script>
+  <script src="{{url_for('static', filename = 'js/login.js')}}"></script>
+  
 <script src="https://kit.fontawesome.com/807b8d0fde.js" crossorigin="anonymous"></script>
 </body>
 

@@ -10,17 +10,33 @@ import aiohttp
 auth = Blueprint('auth', __name__)
 instance = Instaloader()
 
+def abbvr_number(n):
+    """Convierte un número a un formato abreviado con 'k', 'M', 'B'."""
+    if n < 1000:
+        return str(n)
+    elif 1000 <= n < 1000000:
+        return f"{n/1000:.0f}k"
+    elif 1000000 <= n < 1000000000:
+        return f"{n/1000000:.0f}M"
+    else:
+        return f"{n/1000000000:.0f}B"
+
+
 class Unfollower:
-    def __init__(self, username):
+    def __init__(self, username,followers,followees):
         self.username = username
         self.profile_pic_blob = None
         self.isVerified = False
+        self.followers = followers
+        self.followees = followees
     
     def getisVerified(self):
         return self.isVerified
     
     def setIsVerified(self):
         self.isVerified = True
+    
+    
     async def fetch_profile_pic(self):
         try:
             profile = Profile.from_username(instance.context, self.username)
@@ -51,6 +67,8 @@ class Unfollower:
     def to_dict(self):
         return {
             'username': self.username,
+            'followers': self.followers,
+            'followees': self.followees,
             'profile_pic_data_uri': self.get_profile_pic_data_uri(),
             'is_Verified': self.getisVerified()
         }
@@ -67,8 +85,9 @@ async def create_profile(username):
 
         unfollowers = []
         tasks = []
+        
         for user in not_following_you:
-            unfollower = Unfollower(user.username)
+            unfollower = Unfollower(user.username, abbvr_number(user.followers), abbvr_number(user.followees))
             if user.is_verified:
                 unfollower.setIsVerified()
             tasks.append(asyncio.create_task(unfollower.fetch_profile_pic()))
