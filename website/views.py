@@ -21,4 +21,17 @@ def user_profile():
         return render_template('user_profile.html', username=username, profile_pic_url=profile_pic_url)
     else:
         return redirect(url_for('auth.login'))
+
+@views.route('/main')
+def main():
+    if "username" in session:
+        username = session.get('username')
+        profile_pic_url = session.get('profile_pic')
+        full_name = session.get('full_name')
+        Followees = session.get('Followees')
+        Followers = session.get('Followers')
+        Posts = session.get('Posts')
+        return render_template('main.html', username=username,full_name = full_name, Followers = Followers, Followees = Followees, profile_pic_url = profile_pic_url, Posts = Posts)
     
+    else:
+        return redirect(url_for('auth.login'))    

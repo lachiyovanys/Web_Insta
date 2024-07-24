@@ -1,10 +1,4 @@
-.modal-sheet .modal-dialog {
-  width: 50%;
-  transition: bottom .75s ease-in-out;
-}
-.modal-sheet .modal-footer {
-  padding-bottom: 2rem;
-}
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
 
 .toggle-password {
   position: absolute;
@@ -26,5 +20,35 @@
   text-align: center;
   
 
+}
+h1{
+  font-family: "Dancing Script";
+  width: 100%;
+  text-align: center;
+  letter-spacing: 10px;
+  height: 15%;
+}
+
+.fa-instagram {
+  
+  margin: auto;
+  margin-bottom: 10px;
+  font-size: 100px;
+
+  
+
+}
+
+.accept_terms{
+  width: 100%;
+  margin-top: 40%;
+}
+
+#login_button{
+  margin-top:5%;
+}
+
+form .form-control:first-child{
+  margin-top: 5%;
 }
 
