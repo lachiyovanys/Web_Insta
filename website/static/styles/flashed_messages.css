@@ -1,99 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Mochiy+Pop+P+One&family=Montserrat&family=Oswald:wght@300&family=Varela+Round&family=ZCOOL+KuaiLe&display=swap');
-
-
-
-
-.color {
-  animation: color 2s linear infinite;
+.flashed_messages{
+  position: absolute;
+  left: 0;
+  top:10%;
 }
-
-
-
-.spin {
-  animation: spin 2s linear infinite;
-}
-
-
-.danger .fa-caret-down {
-    position: absolute;
-    right: 40px; /* Adjust as needed */
-    font-size: 20px;
-    color: #721c24;
-}
-
-.rotate {
-  animation: rotate 2s linear infinite;
-}
-.danger {
-  border-radius: 5px;
-  width: 220px;
-  text-align: left;
+.card{
+  margin: auto;
+  background-color: #6669;
+  width: 350px;
   display: flex;
-  align-items: center;
-  padding: 10px;
-  background-color: #2B3246;
-  cursor:pointer;
-  box-shadow:  9px 9px 18px #262c3e,
-    -9px -9px 18px #30384e;
-  color: rgb(255, 10, 1);
-  margin: 20px;
-  transition: opacity 0.5s ease-in-out;
+  box-shadow: 0 0 30px #666;
+  transition: transform  0.3 ease-in;
+  box-sizing: border-box;
+
+}
+.card:hover{
+  transform: scale(1.05);
+
 }
 
 
-.danger:hover
-{
-  background-color: rgba(255, 10, 1, 0.33);
-  transition:0.5s;
+.left_side{
+  background-color: #333;
+  width: 40%;
+  text-align: center;
+  font-size: 2em;
+
 }
 
-
-.shine {
-  animation: shine 2s linear infinite;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.right_side{
+  position: relative;
+  padding: 20px;
 }
 
-@keyframes color {
-  50% {
-   color: #2B3246;
-  }
-  100% {
-    color: #0ad406;
-  }
+.right_side i{
+  
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: transform 0.3s ease;
 }
-
-@keyframes rotate {
- 0% {
-    transform: rotate(0deg);
-  }
-  20% {
-    transform: rotate(90deg);
-  }
-  40% {
-    transform: rotate(0deg);
-  }
-  80% {
-    transform: rotate(-90deg);
-  }
-}
-
-@keyframes shine {
-  0% {
-   color: #2B3246;
-  }
-  50% {
-    text-shadow:
-      0 0 5px #fff,
-      0 0 10px #fff,
-      0 0 40px red,
-      0 0 60px red,
-      0 0 80px red;
-  }
+.right_side i:hover{
+  transform: rotate(360deg);
 }

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Our terms of use{% endblock %}
+
+
+
+{% block welcome %}
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="check" viewBox="0 0 16 16">
+      <title>Welcome {{username}}</title>
+      <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+    </symbol>
+  </svg>
+
+{% endblock%}
+
+
+
+{% block css %}  
+<link href="{{url_for('static', filename ='styles/terms.css')}}" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block nav%} 
+<div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+    <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none" download>
+        <i class="fa-solid fa-file-arrow-down"></i> Download terms of use.
+    </a>
+
+    <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+      <a class="py-2 link-body-emphasis text-decoration-none" href="{{ url_for('auth.login') }}">Log in</a>
+    </nav>
+  </div>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="terms_container">
+    <h1>Terms of Use</h1>
+    
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing and using our application, you agree to comply with these Terms of Use. If you do not agree with these terms, please do not use our application.</p>
+    
+    <h2>2. Privacy and Security</h2>
+    
+    <h3>2.1 We Do Not Store Credentials</h3>
+    <p>Our application does not store your Instagram credentials. All information provided is used solely for securely and temporarily logging into your Instagram account.</p>
+    
+    <h3>2.2 Information Collected</h3>
+    <p>We collect only the information necessary to provide our services. We do not share, sell, or disclose your personal information to third parties without your explicit consent, except as required by law.</p>
+    
+    <h2>3. Relationship with Instagram</h2>
+    
+    <h3>3.1 Independence from Instagram</h3>
+    <p>Our application is not affiliated, sponsored, endorsed, or administered by Instagram. We are an independent entity and have no official relationship with Instagram.</p>
+    
+    <h2>4. Proper Use of the Application</h2>
+    
+    <h3>4.1 Responsible Use</h3>
+    <p>You agree to use the application responsibly and in accordance with Instagram's usage policies. Abusive use of our application, including but not limited to spamming, mass data collection, or any other behavior that violates Instagram's terms of service, may result in your account being suspended by Instagram.</p>
+    
+    <h3>4.2 Consequences of Improper Use</h3>
+    <p>You understand and agree that improper use of our application may lead to disciplinary actions by Instagram, including the suspension or deletion of your account. We are not responsible for any actions taken by Instagram as a result of your use of our application.</p>
+    
+    <h2>5. Limitation of Liability</h2>
+    <p>Our application is provided "as is" and "as available". We do not guarantee that the application will be free of errors or interruptions. We will not be liable for any indirect, incidental, special, or consequential damages arising from the use or inability to use the application.</p>
+    
+    <h2>6. Changes to the Terms</h2>
+    <p>We reserve the right to modify these Terms of Use at any time. We will notify you of any material changes through the application or by other reasonable means. Your continued use of the application after such modifications will constitute your acceptance of the new terms.</p>
+    
+    <h2>7. Contact</h2>
+    <p>If you have any questions or concerns about these Terms of Use, please contact us at [your contact email or contact form link].</p>
+
+
+
+
+
+  </div>
+
+
+
+{% endblock %}
+

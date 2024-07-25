@@ -16,11 +16,14 @@ def user_profile():
     if "username" in session:
         username = session.get('username')
         profile_pic_url = session.get('profile_pic')
-
-        
-        return render_template('user_profile.html', username=username, profile_pic_url=profile_pic_url)
+        full_name = session.get('full_name')
+        Followees = session.get('Followees')
+        Followers = session.get('Followers')
+        Posts = session.get('Posts')
+        return render_template('user_profile.html', username=username,full_name = full_name, Followers = Followers, Followees = Followees, profile_pic_url = profile_pic_url, Posts = Posts)
     else:
         return redirect(url_for('auth.login'))
+
 
 @views.route('/main')
 def main():
@@ -35,3 +38,7 @@ def main():
     
     else:
         return redirect(url_for('auth.login'))    
+
+@views.route('/terms_of_use')
+def terms_of_use():
+    return render_template('terms_use.html')    

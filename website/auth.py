@@ -172,19 +172,25 @@ def login():
 
 @auth.route('/code_2fa',methods=['POST','GET'])
 def code_2fa():
-    try:
-        username = session.get('username')
-        print(username)
-        two_factor_code = get_code()
-        print(two_factor_code)
-        instance.two_factor_login(two_factor_code)
-        
-        if create_profile(username):
-            return redirect(url_for('views.main'))
-    except instaloader.BadCredentialsException:
-            flash("Invalid 2FA code. Please try again.", category="error")
-            return redirect(url_for('auth.login'))
+    if "username" in session:
+        try:
+            username = session.get('username')
+            print(username)
+            two_factor_code = get_code()
+            print(two_factor_code)
+            instance.two_factor_login(two_factor_code)
 
+            if create_profile(username):
+                return redirect(url_for('views.main'))
+        except instaloader.BadCredentialsException as e:
+                flash("Invalid 2FA code. Please try again.", category="error")
+                print(e)
+                return redirect(url_for('auth.login'))
+
+
+    else:
+        flash("No 2fa pending.", category="error")
+        return redirect(url_for('auth.login'))
 
 
 @auth.route('/profile-pic')
@@ -202,10 +208,14 @@ def profile_pic():
             return '', 404
     return '', 404
 
+
+
 @auth.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('auth.login'))
+
+
 
 @auth.route('/main')
 def main():

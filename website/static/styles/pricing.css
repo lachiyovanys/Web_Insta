@@ -21,3 +21,9 @@ img {
   object-fit: cover;
   margin-bottom: 1rem;
 }
+
+select{
+  border-style: none;
+  background-color: transparent;
+}
+
